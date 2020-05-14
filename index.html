@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title> Let's take a selfie </title>
+
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+   	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+	  <script src = "js/webcam.min.js"></script>
+	  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>	
+	
+	<div class="container" style="margin-top: 5%;">
+		<div class="row">
+			<div class="col-sm-6  col-md-6">
+				<div id="my_camera"></div>
+			</div>
+			<div class="col-sm-6  col-md-6">
+				<div id="results"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-5  col-md-5"></div>
+			<div class="col-sm-2  col-md-2">
+				<br><br><input type=button class = "capture_btn" value="Capture Me" onClick="take_snapshot()">
+			</div>
+			<div class="col-sm-5  col-md-5"></div>
+		</div>
+	</div>
+
+	<script language="JavaScript">
+			Webcam.set({
+				width: 500,
+				height: 380,
+				image_format: 'jpeg',
+				jpeg_quality: 90
+			});
+			Webcam.attach('#my_camera');
+	</script>
+
+	<script language="JavaScript">
+			// preload shutter audio clip
+			var shutter = new Audio();
+			shutter.autoplay = false;
+			shutter.src = navigator.userAgent.match(/Firefox/) ? 'shutter.ogg' : 'shutter.mp3';
+			
+			function take_snapshot() {
+				// play sound effect
+				shutter.play();
+				
+				// take snapshot and get image data
+				Webcam.snap( function(data_uri) {
+					// display results in page
+					document.getElementById('results').innerHTML = 
+						'<img src="'+data_uri+'"/>';
+				} );
+				this.sweet();
+			}
+			function sweet(){
+				var compliment = ["Expression Queen!","Nice Shot!",
+				"Splendid!", "Beautiful!", "Drama Queen!",
+				"Gorgeous!","Lovely Shot!","Adorable!","So Cute!","Elegant!","Amazing!","Attractive!"];
+				var random = Math.floor(Math.random() * compliment.length);
+				console.log(compliment[random]);
+				swal(compliment[random], {
+				  buttons: false,
+				  timer: 1000
+				});
+
+			}
+			
+	</script>
+	<style type="text/css">
+		.swal-text{
+			font-family: verdana;
+			font-size: 30px;
+			font-weight: bold;
+			color: #cf156f;
+		}
+		.capture_btn{
+			padding: 20px;
+		    font-size: 20px;
+		    font-family: verdana;
+		    color: #cf156f;
+		    background: transparent;
+		    border: 2px solid #cf156f;
+		    border-radius: 13px;
+		}
+	</style>
+</body>
+</html>
